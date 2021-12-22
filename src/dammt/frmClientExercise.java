@@ -5,6 +5,9 @@
  */
 package dammt;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  *
  * @author ADMIN
@@ -14,6 +17,8 @@ public class frmClientExercise extends javax.swing.JFrame {
     /**
      * Creates new form frmClientExercise
      */
+    int counter = 30;
+    Boolean isIt = false;
     public frmClientExercise() {
         initComponents();
     }
@@ -40,6 +45,8 @@ public class frmClientExercise extends javax.swing.JFrame {
         jRadioButton4 = new javax.swing.JRadioButton();
         jRadioButton5 = new javax.swing.JRadioButton();
         jButton2 = new javax.swing.JButton();
+        timeLeft = new javax.swing.JLabel();
+        btn_batdau = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -60,6 +67,18 @@ public class frmClientExercise extends javax.swing.JFrame {
         jButton2.setText("TIẾP THEO");
         jButton2.setBorder(new javax.swing.border.MatteBorder(null));
 
+        timeLeft.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        timeLeft.setForeground(new java.awt.Color(255, 0, 0));
+        timeLeft.setText("30");
+
+        btn_batdau.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btn_batdau.setText("BẮT ĐẦU");
+        btn_batdau.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_batdauActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -73,6 +92,8 @@ public class frmClientExercise extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(26, 26, 26)
                         .addComponent(jLabel1)
+                        .addGap(46, 46, 46)
+                        .addComponent(timeLeft, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton1))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
@@ -84,14 +105,13 @@ public class frmClientExercise extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jRadioButton5)
+                                .addGap(144, 144, 144)
+                                .addComponent(btn_batdau, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton2))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jRadioButton3)
-                                    .addComponent(jRadioButton4)
-                                    .addComponent(jRadioButton2))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))))
+                            .addComponent(jRadioButton3)
+                            .addComponent(jRadioButton4)
+                            .addComponent(jRadioButton2))))
                 .addGap(80, 80, 80))
         );
         layout.setVerticalGroup(
@@ -103,12 +123,14 @@ public class frmClientExercise extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel1)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(timeLeft, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(80, 80, 80)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
                         .addComponent(jRadioButton2)
                         .addGap(18, 18, 18)
                         .addComponent(jRadioButton3)
@@ -116,15 +138,38 @@ public class frmClientExercise extends javax.swing.JFrame {
                         .addComponent(jRadioButton4)
                         .addGap(18, 18, 18)
                         .addComponent(jRadioButton5)
-                        .addContainerGap(41, Short.MAX_VALUE))
+                        .addContainerGap(30, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                        .addGap(0, 0, 0))))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btn_batdau, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_batdauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_batdauActionPerformed
+        // TODO add your handling code here:
+        Timer timer = new Timer(); //new timer
+        counter = 30; //setting the counter to 10 sec
+        TimerTask task = new TimerTask() {
+            public void run() {
+                timeLeft.setText(Integer.toString(counter)); //the timer lable to counter.
+                counter--;
+                if (counter == -1) {
+                    timer.cancel();
+            
+                } else if (isIt) {
+                    timer.cancel();
+                    isIt = false;
+                }
+            }
+        };
+        timer.scheduleAtFixedRate(task, 1000, 1000); // =  timer.scheduleAtFixedRate(task, delay, period);
+    }//GEN-LAST:event_btn_batdauActionPerformed
 
     /**
      * @param args the command line arguments
@@ -162,6 +207,7 @@ public class frmClientExercise extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_batdau;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
@@ -175,5 +221,6 @@ public class frmClientExercise extends javax.swing.JFrame {
     private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JRadioButton jRadioButton4;
     private javax.swing.JRadioButton jRadioButton5;
+    private javax.swing.JLabel timeLeft;
     // End of variables declaration//GEN-END:variables
 }
